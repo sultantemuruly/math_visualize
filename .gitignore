@@ -1,0 +1,27 @@
+# Ignore virtual environment
+venv/
+.env/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# VS Code settings (optional)
+.vscode/
+
+# Manim cache (optional but helpful)
+media/
+manim_render/
+*.log
+*.dvi
+*.aux
+*.svg
+*.pdf
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Mac system files
+.DS_Store
