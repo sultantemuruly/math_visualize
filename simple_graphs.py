@@ -1,7 +1,9 @@
 # type: ignore
 
 from manim import *
+import math
 
+# Linear Graph defined by y = 2x + 1
 class LinearGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-4, 8], axis_config={"include_numbers": True})
@@ -10,6 +12,7 @@ class LinearGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Quadratic Graph defined by y = x^2 - x + 2
 class QuadraticGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-2, 10], axis_config={"include_numbers": True})
@@ -18,6 +21,7 @@ class QuadraticGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Cubic Graph defined by y = x^3 - 2x^2 + x + 1
 class CubicGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-3, 3], y_range=[-10, 10], axis_config={"include_numbers": True})
@@ -26,6 +30,7 @@ class CubicGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Exponential Graph defined by y = 2^x
 class ExponentialGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-2, 4], y_range=[0, 20], axis_config={"include_numbers": True})
@@ -34,6 +39,7 @@ class ExponentialGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Logarithmic Graph defined by y = log base 2 of x
 class LogarithmicGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[0.1, 10], y_range=[-2, 4], axis_config={"include_numbers": True})
@@ -42,6 +48,7 @@ class LogarithmicGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Rational Graph defined by y = (x^2 - 1)/(x - 1)
 class RationalGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-10, 10], axis_config={"include_numbers": True})
@@ -50,6 +57,7 @@ class RationalGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Absolute Value Graph defined by y = |x|
 class AbsoluteValueGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-1, 5], axis_config={"include_numbers": True})
@@ -58,6 +66,7 @@ class AbsoluteValueGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Piecewise Function Graph where y = -x if x < 0, y = x/2 otherwise
 class PiecewiseGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-2, 4], axis_config={"include_numbers": True})
@@ -71,6 +80,7 @@ class PiecewiseGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Circle Graph defined by (x - h)^2 + (y - k)^2 = r^2
 class CircleGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-3, 3], y_range=[-3, 3], axis_config={"include_numbers": True})
@@ -78,6 +88,7 @@ class CircleGraph(Scene):
         self.play(Create(axes), Create(circle))
         self.wait()
 
+# Elliptical Graph defined by x^2/a^2 + y^2/b^2 = 1
 class EllipticalGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-3, 3], axis_config={"include_numbers": True})
@@ -85,6 +96,7 @@ class EllipticalGraph(Scene):
         self.play(Create(axes), Create(ellipse))
         self.wait()
 
+# Hyperbolic Graph defined by x^2/a^2 - y^2/b^2 = 1
 class HyperbolicGraph(Scene):
     def construct(self):
         axes = Axes(x_range=[-4, 4], y_range=[-4, 4], axis_config={"include_numbers": True})

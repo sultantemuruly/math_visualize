@@ -3,6 +3,7 @@
 from manim import *
 import math
 
+# Sine Graph defined by y = sin(x)
 class SineGraph(Scene):
     def construct(self):
         axes = Axes(
@@ -15,6 +16,7 @@ class SineGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Cosine Graph defined by y = cos(x)
 class CosineGraph(Scene):
     def construct(self):
         axes = Axes(
@@ -27,6 +29,7 @@ class CosineGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Tangent Graph defined by y = tan(x), with domain restrictions to avoid vertical asymptotes
 class TangentGraph(Scene):
     def construct(self):
         axes = Axes(
@@ -39,6 +42,7 @@ class TangentGraph(Scene):
         self.play(Create(axes), Create(graph), Write(label))
         self.wait()
 
+# Polar Spiral Graph defined by r = θ / π
 class PolarSpiral(Scene):
     def construct(self):
         axes = PolarPlane(radius_max=5).add_coordinates()
@@ -52,6 +56,7 @@ class PolarSpiral(Scene):
         self.play(Create(axes), Create(graph))
         self.wait()
 
+# Parametric Lissajous Curve defined by x = sin(3t), y = sin(4t)
 class ParametricLissajous(Scene):
     def construct(self):
         axes = Axes(
