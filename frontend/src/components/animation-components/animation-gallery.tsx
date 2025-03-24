@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { AnimationPlayer } from "@/components/animation-player";
-import { AnimationThumbnail } from "@/components/animation-thumbnail";
+import { AnimationPlayer } from "@/components/animation-components/animation-player";
+import { AnimationThumbnail } from "@/components/animation-components/animation-thumbnail";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { AnimationType } from "@/lib/types";
 

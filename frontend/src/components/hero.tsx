@@ -187,7 +187,12 @@ export default function Hero() {
                 way to understand complex concepts.
               </p>
             </div>
-            <div className="mx-auto max-w-sm space-y-2">
+            <div className="mx-auto max-w-sm flex gap-2">
+              <Link to="/math-ai">
+                <Button size="lg" className="w-full">
+                  Math AI
+                </Button>
+              </Link>
               <Link to="/demo">
                 <Button size="lg" className="w-full">
                   Demo

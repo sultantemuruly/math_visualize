@@ -21,8 +21,8 @@ const Header = () => {
         )}
         {isHome && (
           <div className="flex gap-2">
-            <Link to="/">
-              <Button variant={"outline"}>Start</Button>
+            <Link to="/math-ai">
+              <Button variant={"outline"}>Math AI</Button>
             </Link>
             <Link to="/demo">
               <Button variant={"outline"}>Demo</Button>

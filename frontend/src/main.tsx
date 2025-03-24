@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import Header from "./components/header.tsx";
-import Demo from "./pages/Demo.tsx";
+import Demo from "./pages/demo.tsx";
+import MathAI from "./pages/math-ai.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/demo" element={<Demo />} />
+        <Route path="/math-ai" element={<MathAI />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

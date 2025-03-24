@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AnimationGallery from "@/components/animation-gallery";
+import AnimationGallery from "@/components/animation-components/animation-gallery";
 import { graphAnimations, distributionAnimations } from "@/lib/animation-data";
 
 export default function Demo() {
