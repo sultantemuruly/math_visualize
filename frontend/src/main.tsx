@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
 import App from "./App.tsx";
-import Header from "./components/Header.tsx";
+import Header from "./components/header.tsx";
 import Demo from "./pages/Demo.tsx";
 
 createRoot(document.getElementById("root")!).render(
