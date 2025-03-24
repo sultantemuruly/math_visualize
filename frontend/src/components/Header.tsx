@@ -1,9 +1,9 @@
 import { ChevronLeft } from "lucide-react";
 import { Button } from "./ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const isHome = location.pathname === "/";
@@ -13,18 +13,20 @@ const Header = () => {
       <h1 className="text-xl font-bold">Math Visualize</h1>
       <div>
         {!isHome && (
-          <Button variant="outline" onClick={() => navigate("/")}>
-            <ChevronLeft /> Back
-          </Button>
+          <Link to="/">
+            <Button variant="outline">
+              <ChevronLeft /> Back
+            </Button>
+          </Link>
         )}
         {isHome && (
           <div className="flex gap-2">
-            <Button variant={"outline"} onClick={() => navigate("/")}>
-              Start
-            </Button>
-            <Button variant={"outline"} onClick={() => navigate("/demo")}>
-              Demo
-            </Button>
+            <Link to="/">
+              <Button variant={"outline"}>Start</Button>
+            </Link>
+            <Link to="/demo">
+              <Button variant={"outline"}>Demo</Button>
+            </Link>
           </div>
         )}
       </div>
