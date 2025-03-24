@@ -8,8 +8,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/linear-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/LinearGraph.mp4",
   },
   {
     id: "quadratic-graph",
@@ -18,8 +17,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/quadratic-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/QuadraticGraph.mp4",
   },
   {
     id: "cubic-graph",
@@ -28,8 +26,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/cubic-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/CubicGraph.mp4",
   },
   {
     id: "exponential-graph",
@@ -38,8 +35,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/exponential-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/ExponentialGraph.mp4",
   },
   {
     id: "logarithmic-graph",
@@ -48,8 +44,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/logarithmic-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/LogarithmicGraph.mp4",
   },
   {
     id: "rational-graph",
@@ -58,8 +53,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/rational-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/RationalGraph.mp4",
   },
   {
     id: "absolute-value-graph",
@@ -68,8 +62,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/absolute-value-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/AbsoluteValueGraph.mp4",
   },
   {
     id: "piecewise-graph",
@@ -79,8 +72,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/piecewise-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/PiecewiseGraph.mp4",
   },
   {
     id: "circle-graph",
@@ -89,8 +81,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/circle-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/CircleGraph.mp4",
   },
   {
     id: "elliptical-graph",
@@ -99,8 +90,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/elliptical-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/EllipticalGraph.mp4",
   },
   {
     id: "hyperbolic-graph",
@@ -109,8 +99,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/hyperbolic-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/HyperbolicGraph.mp4",
   },
   {
     id: "sine-graph",
@@ -119,8 +108,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Complex Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/sine-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/SineGraph.mp4",
   },
   {
     id: "cosine-graph",
@@ -129,8 +117,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Complex Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/cosine-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/CosineGraph.mp4",
   },
   {
     id: "tangent-graph",
@@ -139,8 +126,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Complex Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/tangent-graph.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/TangentGraph.mp4",
   },
   {
     id: "polar-spiral",
@@ -149,8 +135,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Complex Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/polar-spiral.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/PolarSpiral.mp4",
   },
   {
     id: "parametric-lissajous",
@@ -160,8 +145,7 @@ export const graphAnimations: AnimationType[] = [
     category: "Complex Graphs",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/parametric-lissajous.mp4",
-    duration: 15,
+    videoSrc: "/videos/graphs/ParametricLissajous.mp4",
   },
 ];
 
@@ -173,8 +157,7 @@ export const distributionAnimations: AnimationType[] = [
     category: "Probability Distributions",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/normal-distribution.mp4",
-    duration: 15,
+    videoSrc: "/videos/distribuitions/NormalDistribution.mp4",
   },
   {
     id: "binomial-distribution",
@@ -183,8 +166,7 @@ export const distributionAnimations: AnimationType[] = [
     category: "Probability Distributions",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/binomial-distribution.mp4",
-    duration: 15,
+    videoSrc: "/videos/distribuitions/BinomialDistribution.mp4",
   },
   {
     id: "poisson-distribution",
@@ -193,7 +175,6 @@ export const distributionAnimations: AnimationType[] = [
     category: "Probability Distributions",
     thumbnailUrl: "/placeholder.svg?height=200&width=300",
     previewUrl: "/placeholder.svg?height=720&width=1280",
-    videoSrc: "/videos/poisson-distribution.mp4",
-    duration: 15,
+    videoSrc: "/videos/distribuitions/PoissonDistribution.mp4",
   },
 ];
