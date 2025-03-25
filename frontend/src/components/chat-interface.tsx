@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 
 type Message = {
   id: string;
@@ -40,7 +40,7 @@ export default function ChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!input.trim()) return;
@@ -56,17 +56,29 @@ export default function ChatInterface() {
     setInput("");
     setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Send request to the backend API
+      const response = await axios.post("http://localhost:3001/api/chat", {
+        message: input,
+      });
       const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content:
-          "This is a simulated response. In a real application, this would come from an AI API.",
+        id: Date.now().toString(),
+        content: response.data.reply,
+        role: "assistant",
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Error while fetching AI response:", error);
+      const aiMessage: Message = {
+        id: Date.now().toString(),
+        content: "Sorry, there was an error with the AI response.",
         role: "assistant",
       };
       setMessages((prev) => [...prev, aiMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

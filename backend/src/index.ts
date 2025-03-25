@@ -1,8 +1,8 @@
 import app from "./app";
-
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { Request, Response } from "express";
+import cors from "cors";
 import type {
   ChatCompletionCreateParams,
   ChatCompletion,
@@ -17,6 +17,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Use CORS middleware to allow all origins
+app.use(cors());
+
 // POST /api/chat
 app.post(
   "/api/chat",
@@ -28,11 +31,16 @@ app.post(
       messages: [{ role: "user", content: message }],
     };
 
-    const completion: ChatCompletion = await openai.chat.completions.create(
-      chatRequest
-    );
+    try {
+      const completion: ChatCompletion = await openai.chat.completions.create(
+        chatRequest
+      );
 
-    res.json({ reply: completion.choices[0].message?.content });
+      res.json({ reply: completion.choices[0].message?.content });
+    } catch (error) {
+      console.error("Error processing AI response:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 );
 
