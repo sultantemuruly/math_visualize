@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import { Request, Response } from "express";
 import cors from "cors";
+import fs from "fs";
+import path from "path";
 import type {
   ChatCompletionCreateParams,
   ChatCompletion,
@@ -17,6 +19,17 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Read the initial prompt from a file
+const getInitialPrompt = (): string => {
+  try {
+    const promptPath = path.join(__dirname, "..", "initial_prompt.txt");
+    return fs.readFileSync(promptPath, "utf-8");
+  } catch (error) {
+    console.error("Error reading initial prompt file:", error);
+    return "You are a helpful assistant."; // Default prompt if file not found
+  }
+};
+
 // Use CORS middleware to allow all origins
 app.use(cors());
 
@@ -28,7 +41,12 @@ app.post(
 
     const chatRequest: ChatCompletionCreateParams = {
       model: "gpt-4o",
-      messages: [{ role: "user", content: message }],
+      messages: [
+        // Use the initial prompt read from the file
+        { role: "system", content: getInitialPrompt() },
+        // User message
+        { role: "user", content: message },
+      ],
     };
 
     try {

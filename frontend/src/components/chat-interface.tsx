@@ -16,6 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 type Message = {
   id: string;
@@ -115,7 +116,7 @@ export default function ChatInterface() {
                         : "bg-muted"
                     )}
                   >
-                    {message.content}
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
                   </div>
 
                   {message.role === "user" && (
