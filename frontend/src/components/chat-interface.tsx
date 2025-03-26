@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
+
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,8 +16,13 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+
 import axios from "axios";
+
 import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 export type Expression = {
   id: string;
@@ -110,8 +116,8 @@ export default function ChatInterface({
           <CardTitle className="text-lg font-medium">Math AI</CardTitle>
         </CardHeader>
 
-        <CardContent className="flex-1 p-0 overflow-hidden">
-          <ScrollArea className="h-full">
+        <CardContent className="flex-1 p-0 overflow-hidden flex flex-col">
+          <ScrollArea className="flex-1 overflow-y-auto">
             <div className="flex flex-col gap-4 p-4">
               {messages.map((message) => (
                 <div
@@ -137,7 +143,12 @@ export default function ChatInterface({
                         : "bg-muted"
                     )}
                   >
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkMath]}
+                      rehypePlugins={[rehypeKatex]}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
                   </div>
 
                   {message.role === "user" && (
