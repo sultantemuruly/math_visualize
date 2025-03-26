@@ -18,13 +18,24 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
+export type Expression = {
+  id: string;
+  latex: string;
+};
+
 type Message = {
   id: string;
   content: string;
   role: "user" | "assistant";
 };
 
-export default function ChatInterface() {
+type ChatInterfaceProps = {
+  onNewExpressions?: (exprs: Expression[]) => void;
+};
+
+export default function ChatInterface({
+  onNewExpressions,
+}: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -39,6 +50,13 @@ export default function ChatInterface() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const extractExpressions = (text: string): Expression[] => {
+    const matches = [
+      ...text.matchAll(/\{\s*id:\s*"(.*?)",\s*latex:\s*"(.*?)"\s*\}/g),
+    ];
+    return matches.map(([, id, latex]) => ({ id, latex }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,12 +76,20 @@ export default function ChatInterface() {
       const response = await axios.post("http://localhost:3001/api/chat", {
         message: input,
       });
+      const reply = response.data.reply;
+
       const aiMessage: Message = {
         id: Date.now().toString(),
-        content: response.data.reply,
+        content: reply,
         role: "assistant",
       };
+
       setMessages((prev) => [...prev, aiMessage]);
+
+      const expressions = extractExpressions(reply);
+      if (expressions.length && onNewExpressions) {
+        onNewExpressions(expressions);
+      }
     } catch (error) {
       console.error("Error while fetching AI response:", error);
       const aiMessage: Message = {
