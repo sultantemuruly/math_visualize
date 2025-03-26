@@ -36,17 +36,14 @@ export default function ChatInterface() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!input.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
@@ -58,7 +55,6 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     try {
-      // Send request to the backend API
       const response = await axios.post("http://localhost:3001/api/chat", {
         message: input,
       });
@@ -67,7 +63,6 @@ export default function ChatInterface() {
         content: response.data.reply,
         role: "assistant",
       };
-
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error("Error while fetching AI response:", error);
@@ -83,8 +78,8 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-background">
-      <Card className="w-full max-w-2xl h-[80vh] flex flex-col">
+    <div className="flex items-center justify-center w-full h-full">
+      <Card className="w-full h-full flex flex-col">
         <CardHeader className="px-4 py-3 border-b shrink-0">
           <CardTitle className="text-lg font-medium">Math AI</CardTitle>
         </CardHeader>
@@ -143,8 +138,6 @@ export default function ChatInterface() {
                   </div>
                 </div>
               )}
-
-              {/* Invisible element to scroll to */}
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
