@@ -22,7 +22,6 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css";
 
 export type Expression = {
   id: string;
@@ -37,10 +36,12 @@ type Message = {
 
 type ChatInterfaceProps = {
   onNewExpressions?: (exprs: Expression[]) => void;
+  handleClearGraph: () => void; // Add this prop for clearing the graph
 };
 
 export default function ChatInterface({
   onNewExpressions,
+  handleClearGraph,
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -84,17 +85,21 @@ export default function ChatInterface({
       });
       const reply = response.data.reply;
 
-      const aiMessage: Message = {
-        id: Date.now().toString(),
-        content: reply,
-        role: "assistant",
-      };
+      if (reply === "clear the graph") {
+        handleClearGraph(); // Clear the graph when the AI instructs
+      } else {
+        const aiMessage: Message = {
+          id: Date.now().toString(),
+          content: reply,
+          role: "assistant",
+        };
 
-      setMessages((prev) => [...prev, aiMessage]);
+        setMessages((prev) => [...prev, aiMessage]);
 
-      const expressions = extractExpressions(reply);
-      if (expressions.length && onNewExpressions) {
-        onNewExpressions(expressions);
+        const expressions = extractExpressions(reply);
+        if (expressions.length && onNewExpressions) {
+          onNewExpressions(expressions);
+        }
       }
     } catch (error) {
       console.error("Error while fetching AI response:", error);

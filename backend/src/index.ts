@@ -54,7 +54,14 @@ app.post(
         chatRequest
       );
 
-      res.json({ reply: completion.choices[0].message?.content });
+      const reply = completion.choices[0].message?.content;
+
+      // Check if the reply contains the "clear the graph" instruction
+      if (reply?.toLowerCase().includes("clear the graph")) {
+        res.json({ reply: "clear the graph" }); // Send clear command to frontend
+      } else {
+        res.json({ reply });
+      }
     } catch (error) {
       console.error("Error processing AI response:", error);
       res.status(500).json({ error: "Internal server error" });
