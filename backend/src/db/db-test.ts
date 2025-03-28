@@ -4,12 +4,12 @@ import { users } from "./schema";
 
 async function testDb() {
   // Create a user
-  await db.insert(users).values({ name: "Yerassyl" });
-  console.log("✅ User inserted");
+  await db.insert(users).values({ clerkId: "clerkId", email: "email" });
+  console.log("User inserted");
 
   // Read all users
   const result = await db.select().from(users);
-  console.log("🧾 All users:", result);
+  console.log("All users:", result);
 }
 
 testDb().catch((err) => {
