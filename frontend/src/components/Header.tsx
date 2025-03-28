@@ -37,7 +37,7 @@ const Header = () => {
         )}
         <div>
           <SignedOut>
-            <Button variant={"outline"} className="bg-black text-white">
+            <Button className="bg-black text-white">
               <SignInButton />
             </Button>
           </SignedOut>
