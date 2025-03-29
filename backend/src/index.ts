@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import path from "path";
 
 import app from "./app";
 import clerkWebhookRouter from "./routes/clerk-webhook";
@@ -16,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(clerkWebhookRouter);
-app.use("/api/get-chats", chatsRouter);
+app.use("/api/chats", chatsRouter);
 app.use("/api/chat", aiChatRouter);
 
 // Root

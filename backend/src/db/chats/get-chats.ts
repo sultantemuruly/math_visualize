@@ -3,16 +3,20 @@ import { chats } from "../schema";
 import { eq } from "drizzle-orm";
 import type { ChatMessage } from "./types";
 
+type Message = {
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+};
+
 // Get the content of a specific chat
-export async function getChatById(
-  chatId: number
-): Promise<ChatMessage[] | null> {
+export async function getChatById(chatId: number): Promise<Message[]> {
   const [chat] = (await db
     .select({ content: chats.content })
     .from(chats)
-    .where(eq(chats.id, chatId))) as { content: ChatMessage[] }[];
+    .where(eq(chats.id, chatId))) as { content: Message[] }[];
 
-  return chat ? chat.content : null;
+  return chat?.content ?? [];
 }
 
 // Get all chat IDs for a specific user

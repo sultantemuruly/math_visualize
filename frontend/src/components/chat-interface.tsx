@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Send, Menu, PanelLeftClose } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import {
   Card,
   CardContent,
@@ -14,11 +15,16 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+
 import axios from "axios";
+
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+
 import ChatSidebar from "./chat-sidebar";
+
+import { useUser } from "@clerk/clerk-react";
 
 export type Expression = {
   id: string;
@@ -40,6 +46,7 @@ export default function ChatInterface({
   onNewExpressions,
   handleClearGraph,
 }: ChatInterfaceProps) {
+  const { user } = useUser();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -49,7 +56,55 @@ export default function ChatInterface({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [chatId, setChatId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const storedChatId = localStorage.getItem("chatId");
+    if (storedChatId) {
+      setChatId(parseInt(storedChatId, 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (chatId !== null) {
+      localStorage.setItem("chatId", chatId.toString());
+    }
+  }, [chatId]);
+
+  useEffect(() => {
+    const fetchChatMessages = async () => {
+      if (!chatId || !user?.id) return;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:3001/api/chats/${user.id}/${chatId}`
+        );
+
+        const loadedMessages = res.data.messages;
+
+        if (Array.isArray(loadedMessages) && loadedMessages.length > 0) {
+          setMessages(loadedMessages);
+        } else {
+          setMessages([
+            {
+              id: "1",
+              content: "Hello! How can I help you today?",
+              role: "assistant",
+            },
+          ]);
+        }
+
+        console.log("Loaded messages from backend:", loadedMessages);
+      } catch (err) {
+        console.error("Failed to load chat history:", err);
+      }
+    };
+
+    fetchChatMessages();
+  }, [chatId, user?.id]);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,6 +118,29 @@ export default function ChatInterface({
     return matches.map(([, id, latex]) => ({ id, latex }));
   };
 
+  const saveMessage = async (message: Message) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/api/chats/upsert-chat",
+        {
+          userClerkId: user?.id,
+          chatId: chatId ?? -1,
+          newMessage: {
+            role: message.role,
+            content: message.content,
+          },
+        }
+      );
+
+      // Only update chatId if it was created
+      if (chatId === null && res.data.chatId) {
+        setChatId(res.data.chatId);
+      }
+    } catch (err) {
+      console.error("Failed to update chat:", err);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -74,6 +152,7 @@ export default function ChatInterface({
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    saveMessage(userMessage);
     setInput("");
     setIsLoading(true);
 
@@ -93,6 +172,7 @@ export default function ChatInterface({
         };
 
         setMessages((prev) => [...prev, aiMessage]);
+        saveMessage(aiMessage);
 
         const expressions = extractExpressions(reply);
         if (expressions.length && onNewExpressions) {
@@ -111,6 +191,8 @@ export default function ChatInterface({
       setIsLoading(false);
     }
   };
+
+  if (!user) return <div>Loading...</div>;
 
   return (
     <div className="w-full h-full flex">
@@ -142,9 +224,12 @@ export default function ChatInterface({
             )}
           >
             <ChatSidebar
-              userClerkId="user_123"
-              onSelectChat={(id) => console.log("Selected chat:", id)}
-              activeChatId={undefined}
+              userClerkId={user.id}
+              onSelectChat={(id) => {
+                console.log("Selected chat:", id);
+                setChatId(id);
+              }}
+              activeChatId={chatId ?? undefined}
             />
           </div>
 
