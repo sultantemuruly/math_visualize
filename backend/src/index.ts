@@ -1,77 +1,26 @@
-import app from "./app";
+import express from "express";
 import dotenv from "dotenv";
-import OpenAI from "openai";
-import { Request, Response } from "express";
 import cors from "cors";
-import fs from "fs";
 import path from "path";
-import type {
-  ChatCompletionCreateParams,
-  ChatCompletion,
-} from "openai/resources/chat/completions";
 
+import app from "./app";
 import clerkWebhookRouter from "./routes/clerk-webhook";
+import chatsRouter from "./routes/chats";
+import aiChatRouter from "./routes/ai-chat";
 
 dotenv.config();
 
 const port = process.env.PORT || 3001;
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Read the initial prompt from a file
-const getInitialPrompt = (): string => {
-  try {
-    const promptPath = path.join(__dirname, "..", "initial_prompt.txt");
-    return fs.readFileSync(promptPath, "utf-8");
-  } catch (error) {
-    console.error("Error reading initial prompt file:", error);
-    return "You are a helpful assistant."; // Default prompt if file not found
-  }
-};
-
 app.use(cors());
+app.use(express.json());
+
 app.use(clerkWebhookRouter);
+app.use("/api/get-chats", chatsRouter);
+app.use("/api/chat", aiChatRouter);
 
-app.post(
-  "/api/chat",
-  async (req: Request<{}, {}, { message: string }>, res: Response) => {
-    const { message } = req.body;
-
-    const chatRequest: ChatCompletionCreateParams = {
-      model: "gpt-4o",
-      messages: [
-        // Use the initial prompt read from the file
-        { role: "system", content: getInitialPrompt() },
-        // User message
-        { role: "user", content: message },
-      ],
-    };
-
-    try {
-      const completion: ChatCompletion = await openai.chat.completions.create(
-        chatRequest
-      );
-
-      const reply = completion.choices[0].message?.content;
-
-      // Check if the reply contains the "clear the graph" instruction
-      if (reply?.toLowerCase().includes("clear the graph")) {
-        res.json({ reply: "clear the graph" }); // Send clear command to frontend
-      } else {
-        res.json({ reply });
-      }
-    } catch (error) {
-      console.error("Error processing AI response:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
-);
-
-// Root route
-app.get("/", async (_req: Request, res: Response) => {
+// Root
+app.get("/", (_req, res) => {
   res.send("Hello!");
 });
 
