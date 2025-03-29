@@ -10,6 +10,8 @@ import type {
   ChatCompletion,
 } from "openai/resources/chat/completions";
 
+import clerkWebhookRouter from "./routes/clerk-webhook";
+
 dotenv.config();
 
 const port = process.env.PORT || 3001;
@@ -30,10 +32,9 @@ const getInitialPrompt = (): string => {
   }
 };
 
-// Use CORS middleware to allow all origins
 app.use(cors());
+app.use(clerkWebhookRouter);
 
-// POST /api/chat
 app.post(
   "/api/chat",
   async (req: Request<{}, {}, { message: string }>, res: Response) => {
