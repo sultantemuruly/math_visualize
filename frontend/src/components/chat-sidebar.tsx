@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import axios from "axios";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 
 type ChatSidebarProps = {
   userClerkId: string;
@@ -34,15 +34,15 @@ export default function ChatSidebar({
   }, [userClerkId]);
 
   return (
-    <div className="w-60 border-r h-full flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="p-4 font-semibold border-b">Your Chats</div>
-      <ScrollArea className="flex-1 p-2">
-        <div className="flex flex-col gap-2">
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col gap-2 p-2">
           {chatIds.map((id) => (
             <Button
               key={id}
-              variant={activeChatId === id ? "default" : "outline"}
-              className="justify-start"
+              variant={activeChatId === id ? "default" : "ghost"}
+              className="justify-start w-full"
               onClick={() => onSelectChat(id)}
             >
               Chat {id}

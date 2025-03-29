@@ -1,9 +1,7 @@
 "use client";
 
-import type React from "react";
 import { useState, useRef, useEffect } from "react";
-
-import { Send } from "lucide-react";
+import { Send, Menu, PanelLeftClose } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,12 +14,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-
 import axios from "axios";
-
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import ChatSidebar from "./chat-sidebar";
 
 export type Expression = {
   id: string;
@@ -36,7 +33,7 @@ type Message = {
 
 type ChatInterfaceProps = {
   onNewExpressions?: (exprs: Expression[]) => void;
-  handleClearGraph: () => void; // Add this prop for clearing the graph
+  handleClearGraph: () => void;
 };
 
 export default function ChatInterface({
@@ -52,6 +49,7 @@ export default function ChatInterface({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -86,7 +84,7 @@ export default function ChatInterface({
       const reply = response.data.reply;
 
       if (reply === "clear the graph") {
-        handleClearGraph(); // Clear the graph when the AI instructs
+        handleClearGraph();
       } else {
         const aiMessage: Message = {
           id: Date.now().toString(),
@@ -115,94 +113,129 @@ export default function ChatInterface({
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-full">
-      <Card className="w-full h-full flex flex-col">
-        <CardHeader className="px-4 py-3 border-b shrink-0">
-          <CardTitle className="text-lg font-medium">Math AI</CardTitle>
+    <div className="w-full h-full flex">
+      <Card className="flex-1 flex flex-col overflow-hidden">
+        <CardHeader className="px-4 py-3 border-b">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="shrink-0"
+            >
+              {!sidebarOpen ? (
+                <Menu className="h-5 w-5" />
+              ) : (
+                <PanelLeftClose className="h-5 w-5" />
+              )}
+            </Button>
+            <CardTitle className="text-lg font-medium">Math AI</CardTitle>
+          </div>
         </CardHeader>
 
-        <CardContent className="flex-1 p-0 overflow-hidden flex flex-col">
-          <ScrollArea className="flex-1 overflow-y-auto">
-            <div className="flex flex-col gap-4 p-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={cn(
-                    "flex gap-3 max-w-[80%]",
-                    message.role === "user" ? "ml-auto" : ""
-                  )}
-                >
-                  {message.role === "assistant" && (
-                    <Avatar className="h-8 w-8 shrink-0 bg-primary">
-                      <div className="text-xs font-medium text-primary-foreground">
-                        AI
-                      </div>
-                    </Avatar>
-                  )}
-
-                  <div
-                    className={cn(
-                      "rounded-lg p-3 break-words",
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    )}
-                  >
-                    <ReactMarkdown
-                      remarkPlugins={[remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                    >
-                      {message.content}
-                    </ReactMarkdown>
-                  </div>
-
-                  {message.role === "user" && (
-                    <Avatar className="h-8 w-8 shrink-0 bg-muted">
-                      <div className="text-xs font-medium">You</div>
-                    </Avatar>
-                  )}
-                </div>
-              ))}
-
-              {isLoading && (
-                <div className="flex gap-3 max-w-[80%]">
-                  <Avatar className="h-8 w-8 shrink-0 bg-primary">
-                    <div className="text-xs font-medium text-primary-foreground">
-                      AI
-                    </div>
-                  </Avatar>
-                  <div className="bg-muted rounded-lg p-3">
-                    <div className="flex gap-1">
-                      <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce"></div>
-                      <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce delay-75"></div>
-                      <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce delay-150"></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          </ScrollArea>
-        </CardContent>
-
-        <CardFooter className="p-3 border-t shrink-0">
-          <form onSubmit={handleSubmit} className="flex w-full gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1"
-              disabled={isLoading}
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar - now part of the card */}
+          <div
+            className={cn(
+              "w-64 border-r transition-all duration-300 ease-in-out flex flex-col",
+              sidebarOpen ? "opacity-100" : "w-0 opacity-0 overflow-hidden"
+            )}
+          >
+            <ChatSidebar
+              userClerkId="user_123"
+              onSelectChat={(id) => console.log("Selected chat:", id)}
+              activeChatId={undefined}
             />
-            <Button
-              type="submit"
-              size="icon"
-              disabled={isLoading || !input.trim()}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </form>
-        </CardFooter>
+          </div>
+
+          {/* Main chat content */}
+          <div className="flex-1 flex flex-col">
+            {/* Messages area */}
+            <CardContent className="flex-1 p-0 overflow-hidden">
+              <ScrollArea className="h-full w-full">
+                <div className="flex flex-col gap-4 p-4">
+                  {messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={cn(
+                        "flex gap-3 max-w-[80%]",
+                        message.role === "user" ? "ml-auto" : ""
+                      )}
+                    >
+                      {message.role === "assistant" && (
+                        <Avatar className="h-8 w-8 shrink-0 bg-primary">
+                          <div className="text-xs font-medium text-primary-foreground">
+                            AI
+                          </div>
+                        </Avatar>
+                      )}
+
+                      <div
+                        className={cn(
+                          "rounded-lg p-3 break-words",
+                          message.role === "user"
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted"
+                        )}
+                      >
+                        <ReactMarkdown
+                          remarkPlugins={[remarkMath]}
+                          rehypePlugins={[rehypeKatex]}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+
+                      {message.role === "user" && (
+                        <Avatar className="h-8 w-8 shrink-0 bg-muted">
+                          <div className="text-xs font-medium">You</div>
+                        </Avatar>
+                      )}
+                    </div>
+                  ))}
+
+                  {isLoading && (
+                    <div className="flex gap-3 max-w-[80%]">
+                      <Avatar className="h-8 w-8 shrink-0 bg-primary">
+                        <div className="text-xs font-medium text-primary-foreground">
+                          AI
+                        </div>
+                      </Avatar>
+                      <div className="bg-muted rounded-lg p-3">
+                        <div className="flex gap-1">
+                          <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce"></div>
+                          <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce delay-75"></div>
+                          <div className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce delay-150"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+              </ScrollArea>
+            </CardContent>
+
+            {/* Input area - stays fixed at bottom */}
+            <CardFooter className="p-3 border-t shrink-0">
+              <form onSubmit={handleSubmit} className="flex w-full gap-2">
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Type your message..."
+                  className="flex-1"
+                  disabled={isLoading}
+                />
+                <Button
+                  type="submit"
+                  size="icon"
+                  disabled={isLoading || !input.trim()}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </form>
+            </CardFooter>
+          </div>
+        </div>
       </Card>
     </div>
   );
