@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Menu, PanelLeftClose } from "lucide-react";
+import { Send, Menu, PanelLeftClose, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -248,9 +248,9 @@ export default function ChatInterface({
                       )}
                     >
                       {message.role === "assistant" && (
-                        <Avatar className="h-8 w-8 shrink-0 bg-primary">
+                        <Avatar className="h-8 w-8 shrink-0 bg-primary flex items-center justify-center">
                           <div className="text-xs font-medium text-primary-foreground">
-                            AI
+                            <Brain />
                           </div>
                         </Avatar>
                       )}
@@ -273,7 +273,13 @@ export default function ChatInterface({
 
                       {message.role === "user" && (
                         <Avatar className="h-8 w-8 shrink-0 bg-muted">
-                          <div className="text-xs font-medium">You</div>
+                          <div>
+                            <img
+                              src={user.imageUrl}
+                              alt="User avatar"
+                              className="object-cover"
+                            />
+                          </div>
                         </Avatar>
                       )}
                     </div>
@@ -281,9 +287,9 @@ export default function ChatInterface({
 
                   {isLoading && (
                     <div className="flex gap-3 max-w-[80%]">
-                      <Avatar className="h-8 w-8 shrink-0 bg-primary">
+                      <Avatar className="h-8 w-8 shrink-0 bg-primary flex justify-center items-center">
                         <div className="text-xs font-medium text-primary-foreground">
-                          AI
+                          <Brain />
                         </div>
                       </Avatar>
                       <div className="bg-muted rounded-lg p-3">
