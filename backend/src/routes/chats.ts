@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { getAllChatIds, getChatById } from "../db/chats/get-chats";
+import { deleteChatById } from "../db/chats/delete-chat";
 import { upsertChat } from "../db/chats/upsert-chat";
 
 const router = express.Router();
@@ -8,6 +9,17 @@ router.get("/:userClerkId/:chatId", async (req: Request, res: Response) => {
   const { chatId } = req.params;
   try {
     const messages = await getChatById(Number(chatId));
+    res.json({ messages });
+  } catch (error) {
+    console.error("Error fetching chat messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.delete("/:userClerkId/:chatId", async (req: Request, res: Response) => {
+  const { chatId } = req.params;
+  try {
+    const messages = await deleteChatById(Number(chatId));
     res.json({ messages });
   } catch (error) {
     console.error("Error fetching chat messages:", error);

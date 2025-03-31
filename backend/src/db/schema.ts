@@ -1,11 +1,4 @@
-import {
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  jsonb,
-  integer,
-} from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 // USERS table

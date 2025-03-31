@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 type ChatSidebarProps = {
   userClerkId: string;
@@ -59,6 +60,19 @@ export default function ChatSidebar({
     }
   };
 
+  const handleChatDelete = async (chatId: number) => {
+    try {
+      setIsLoading(true);
+      await axios.delete(
+        `http://localhost:3001/api/chats/${userClerkId}/${chatId}`
+      );
+      fetchChatIds();
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to delete chat:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
       {isLoading ? (
@@ -74,14 +88,25 @@ export default function ChatSidebar({
           <ScrollArea className="flex-1">
             <div className="flex flex-col gap-2 p-2">
               {chatIds.map((id) => (
-                <Button
-                  key={id}
-                  variant={activeChatId === id ? "default" : "ghost"}
-                  className="justify-start w-full"
-                  onClick={() => onSelectChat(id)}
-                >
-                  Chat {id}
-                </Button>
+                <div key={id} className="relative">
+                  <Button
+                    variant={activeChatId === id ? "default" : "ghost"}
+                    className="justify-start w-full pr-10"
+                    onClick={() => onSelectChat(id)}
+                  >
+                    Chat {id}
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-7 w-7"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleChatDelete(id);
+                    }}
+                  >
+                    <Trash2 className="w-2 h-2" />
+                  </Button>
+                </div>
               ))}
             </div>
           </ScrollArea>
