@@ -1,7 +1,6 @@
 import { db } from "../index";
 import { chats } from "../schema";
 import { eq } from "drizzle-orm";
-import type { ChatMessage } from "./types";
 
 type Message = {
   id: string;
